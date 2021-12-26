@@ -14,7 +14,7 @@ const Root = styled.div`
 `;
 
 const LogoWrapper = styled.div`
-  padding: 42px;
+  padding: 16px;
   padding-left: 62px;
 `;
 
