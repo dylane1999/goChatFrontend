@@ -1,8 +1,48 @@
+import {
+  Backdrop,
+  Box,
+  Button,
+  CircularProgress,
+  Modal,
+  TextField,
+  Typography,
+} from "@material-ui/core";
 import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import styled from "styled-components";
-import { getOpenChatrooms } from "../api/getOpenChatrooms";
-import ChatroomJoinBox from "../components/ChatroomJoinBox";
+import Chatbox from "../components/Chatbox";
 import { Header } from "../components/Header";
+import TextInput from "../components/TextInput";
+import { IChatMessage } from "../types/chatMessage";
+import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+import ChatroomJoinBox from "../components/ChatroomJoinBox";
+import { getOpenChatrooms } from "../api/getOpenChatrooms";
+
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    backdrop: {
+      color: "#fff",
+      zIndex: 5,
+    },
+    boxStyle: {
+      position: "absolute",
+      top: "50%",
+      left: "50%",
+      transform: "translate(-50%, -50%)",
+      width: "737px",
+      height: "354px",
+      backgroundColor: "#C4C4C4",
+      border: "2px solid #000",
+      boxShadow: "24px",
+      borderRadius: "8px",
+      p: 4,
+    },
+    textStyle: {
+      color: "white",
+    },
+  })
+);
 
 const TitleText = styled.p`
   /* Available Chatrooms */
@@ -45,7 +85,10 @@ const ContentWrapper = styled.div`
 `;
 
 const JoinChatroomPage = () => {
+  const classes = useStyles();
   const [openChatrooms, setOpenChatrooms] = useState<Array<string>>();
+  const [username, setUsername] = useState("");
+  const [usernameChosen, setUsernameChosen] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -54,9 +97,37 @@ const JoinChatroomPage = () => {
     })();
   }, []);
 
+  
+
   return (
     <>
       <Root>
+        <Modal
+          open={!usernameChosen}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box className={classes.boxStyle}>
+            <Typography
+              className={classes.textStyle}
+              id="modal-modal-title"
+              variant="h6"
+              component="h2"
+            >
+              Please Input your Chatname
+            </Typography>
+            <TextField
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              id="outlined-basic"
+              label="chat name"
+              variant="outlined"
+            />
+            <Button onClick={() => setUsernameChosen(true)}>
+              Choose Screename
+            </Button>
+          </Box>
+        </Modal>
         <Header />
         <ContentWrapper>
           <TitleText>Available Chatrooms: </TitleText>

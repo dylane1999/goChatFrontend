@@ -41,10 +41,11 @@ const useStyles = makeStyles((theme: Theme) =>
 const TextInput = (props: ITextInputProps) => {
   const [messageValue, setMessage] = useState<string>("");
 
-  const handleSubmit = () => {
+  const handleSubmit = (e:React.FormEvent<HTMLFormElement>) => {
     // messageToSend: IChatMessage,
     // wsConnection: WebSocket,
     // setCurrentMessage: React.Dispatch<string>
+    e.preventDefault()
     const messageToSend: IChatMessage = {
       username: props.user,
       chatroomId: props.chatroomId,
@@ -61,7 +62,7 @@ const TextInput = (props: ITextInputProps) => {
         className={classes.wrapForm}
         noValidate
         autoComplete="off"
-        onSubmit={() => handleSubmit()}
+        onSubmit={(e) => handleSubmit(e)}
       >
         <TextField
           id="standard-text"

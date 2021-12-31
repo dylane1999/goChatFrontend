@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import GoChatLogo from "../assets/GoChatLogo";
 
@@ -22,7 +23,9 @@ export const Header = (props: Props) => {
   return (
     <Root>
       <LogoWrapper>
-        <GoChatLogo />
+        <Link to={"/"}>
+          <GoChatLogo />
+        </Link>
       </LogoWrapper>
     </Root>
   );
